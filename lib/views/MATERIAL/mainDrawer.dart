@@ -9,6 +9,7 @@ import 'package:MOrder/views/MAKEORDERS/makeOrders.dart';
 import 'package:MOrder/views/PRODUCTS/productCategory.dart';
 import 'package:MOrder/views/CART/productRanges.dart';
 import 'package:MOrder/views/DASHBOARD/mainDashboard.dart';
+import 'package:MOrder/views/AUTH/supplier.dart';
 
 class MainDrawer extends StatelessWidget {
   @override
@@ -18,7 +19,8 @@ class MainDrawer extends StatelessWidget {
         children: [
           Container(
             width: double.infinity,
-            padding: EdgeInsets.all(30.0), color: Colors.orange,
+            padding: EdgeInsets.all(30.0),
+            color: Colors.orange,
             child: Column(
               children: [
                 Container(
@@ -27,51 +29,65 @@ class MainDrawer extends StatelessWidget {
                   margin: EdgeInsets.only(bottom: 10.0),
                   decoration: BoxDecoration(
                     shape: BoxShape.circle,
-                    image: DecorationImage(image: NetworkImage('https://s.gravatar.com/avatar/66cb0e36c3955fcc2e0480a012436a4f?s=480&r=pg&d=https%3A%2F%2Fcdn.auth0.com%2Favatars%2Fdm.png')),
+                    image: DecorationImage(
+                        image: NetworkImage(
+                            'https://s.gravatar.com/avatar/66cb0e36c3955fcc2e0480a012436a4f?s=480&r=pg&d=https%3A%2F%2Fcdn.auth0.com%2Favatars%2Fdm.png')),
                   ),
                 ),
-                Text("Dulanjan Madusanka",
+                Text(
+                  "Dulanjan Madusanka",
                   style: TextStyle(fontSize: 20.0, color: Colors.white),
                 ),
-                Text("dulanjansej@gmail.com",
+                Text(
+                  "dulanjansej@gmail.com",
                   style: TextStyle(color: Colors.white),
                 ),
               ],
             ),
           ),
           ListTile(
-            leading: Icon(Icons.person, color: Colors.orange,),
-            title: Text("Dashboard",
-              style: TextStyle(fontSize: 16),),
+            leading: Icon(
+              Icons.person,
+              color: Colors.orange,
+            ),
+            title: Text(
+              "Dashboard",
+              style: TextStyle(fontSize: 16),
+            ),
+            onTap: () => {
+              Navigator.of(context).push(MaterialPageRoute(builder: (_) {
+                //return mainDashBoard("cat");
+                return MainDashBoard(1);
+              }))
+            },
+          ),
+          ListTile(
+            leading: Icon(
+              Icons.supervised_user_circle,
+              color: Colors.orange,
+            ),
+            title: Text("Supplier Details", style: TextStyle(fontSize: 16),),
             onTap: () => {
               Navigator.of(context).push(MaterialPageRoute(
                   builder: (_){
-                    //return mainDashBoard("cat");
-                    return MainDashBoard(1);
+                    return Supplier(1);
                   }
               ))
             },
           ),
-          // ListTile(
-          //   leading: Icon(Icons.speaker_notes_outlined),
-          //   title: Text("Loyalty Card", style: TextStyle(fontSize: 16),),
-          //   onTap: () => {
-          //     Navigator.of(context).push(MaterialPageRoute(
-          //         builder: (_){
-          //           return LoyatyCard();
-          //         }
-          //     ))
-          //   },
-          // ),
           ListTile(
-            leading: Icon(Icons.speaker_notes_outlined, color: Colors.orange,),
-            title: Text("Orders", style: TextStyle(fontSize: 16),),
+            leading: Icon(
+              Icons.speaker_notes_outlined,
+              color: Colors.orange,
+            ),
+            title: Text(
+              "Orders",
+              style: TextStyle(fontSize: 16),
+            ),
             onTap: () => {
-              Navigator.of(context).push(MaterialPageRoute(
-                  builder: (_){
-                    return makeOder();
-                  }
-              ))
+              Navigator.of(context).push(MaterialPageRoute(builder: (_) {
+                return MakeOder();
+              }))
             },
           ),
           // ListTile(
@@ -86,15 +102,18 @@ class MainDrawer extends StatelessWidget {
           //   },
           // ),
           ListTile(
-            leading: Icon(Icons.monetization_on_sharp, color: Colors.orange,),
-            title: Text("Outstanding",
-              style: TextStyle(fontSize: 16),),
+            leading: Icon(
+              Icons.monetization_on_sharp,
+              color: Colors.orange,
+            ),
+            title: Text(
+              "Outstanding",
+              style: TextStyle(fontSize: 16),
+            ),
             onTap: () => {
-              Navigator.of(context).push(MaterialPageRoute(
-                  builder: (_){
-                    return outStanding();
-                  }
-              ))
+              Navigator.of(context).push(MaterialPageRoute(builder: (_) {
+                return outStanding();
+              }))
             },
           ),
           // ListTile(
@@ -122,22 +141,30 @@ class MainDrawer extends StatelessWidget {
           //   },
           // ),
           ListTile(
-            leading: Icon(Icons.add_shopping_cart, color: Colors.orange,),
-            title: Text("Products",
-              style: TextStyle(fontSize: 16),),
+            leading: Icon(
+              Icons.add_shopping_cart,
+              color: Colors.orange,
+            ),
+            title: Text(
+              "Products",
+              style: TextStyle(fontSize: 16),
+            ),
             onTap: () => {
-              Navigator.of(context).push(MaterialPageRoute(
-                  builder: (_){
-                    //return ShoppingPage();
-                    return AllProductRanges();
-                  }
-              ))
+              Navigator.of(context).push(MaterialPageRoute(builder: (_) {
+                //return ShoppingPage();
+                return AllProductRanges();
+              }))
             },
           ),
           ListTile(
-            leading: Icon(Icons.logout, color: Colors.red,),
-            title: Text("Logout",
-              style: TextStyle(fontSize: 16),),
+            leading: Icon(
+              Icons.logout,
+              color: Colors.red,
+            ),
+            title: Text(
+              "Logout",
+              style: TextStyle(fontSize: 16),
+            ),
             onTap: () => {
               // Navigator.of(context).push(MaterialPageRoute(
               //     builder: (_){

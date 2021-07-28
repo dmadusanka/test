@@ -9,6 +9,7 @@ import 'package:MOrder/views/MATERIAL/bottomBar.dart';
 import 'package:get/get.dart';
 import 'package:http/http.dart' as http;
 import 'dart:convert';
+import 'package:badges/badges.dart';
 
 class ShoppingPage extends StatelessWidget {
   final String categoryId;
@@ -22,6 +23,27 @@ class ShoppingPage extends StatelessWidget {
   Widget build(BuildContext context) {
     return Scaffold(
         appBar: AppBar(
+          actions: <Widget>[
+            Badge(
+              position: BadgePosition.topEnd(top: 0, end: 3),
+              animationDuration: Duration(milliseconds: 300),
+              animationType: BadgeAnimationType.slide,
+              badgeContent:GetX<CartController>(
+                builder: (controller) {
+                  return Text('${controller.itemCount}',
+                      style: TextStyle(fontSize: 17),);
+                },
+              ),
+              child: IconButton(
+                icon: Icon(Icons.shopping_cart),
+                onPressed: () {
+                  Navigator.of(context).push(MaterialPageRoute(builder: (_) {
+                    return MakeOder();
+                  }));
+                }
+              ),
+            )
+          ],
           title: GetX<CartController>(
             builder: (controller) {
               return Text("\$ ${controller.totalPrice}");
@@ -30,49 +52,49 @@ class ShoppingPage extends StatelessWidget {
           backgroundColor: Colors.orange,
         ),
         //bottomNavigationBar: BottomBar(),
-        floatingActionButtonLocation: FloatingActionButtonLocation.endTop,
-        floatingActionButton: FloatingActionButton.extended(
-          icon: Icon(Icons.add_shopping_cart_outlined,),
-          label: GetX<CartController>(
-            builder: (controller) {
-              return Text('${controller.itemCount}',
-                  style: TextStyle(fontSize: 20));
-            },
-          ),
-          onPressed: () {
-            Navigator.of(context).push(MaterialPageRoute(
-                builder: (_){
-                  return makeOder();
-                }
-            ));
-            // showDialog(
-            //   context: context,
-            //   builder: (_) => AlertDialog(
-            //     title: Container(
-            //       padding: EdgeInsets.only(left: 5, right: 5, top: 3, bottom: 3),
-            //       color: Colors.amber,
-            //       child: Center(
-            //         child: Text("Ordered Items"),
-            //       ),
-            //     ),
-            //     actions: [
-            //       Container(
-            //         width: 400,
-            //         child: Center(
-            //           child: CircularProgressIndicator(),
-            //         ),
-            //       )
-            //     ],
-            //   ),
-            //);
-            // Navigator.of(context)
-            //     .push(MaterialPageRoute(builder: (_) {
-            //   //return MainDashBoard(snapshot.data[index].id);
-            //   return makeOder();
-            // }));
-          },
-          backgroundColor: Colors.orange,
-        ),
+        //floatingActionButtonLocation: FloatingActionButtonLocation.endTop,
+        // floatingActionButton: FloatingActionButton.extended(
+        //   icon: Icon(
+        //     Icons.add_shopping_cart_outlined,
+        //   ),
+        //   label: GetX<CartController>(
+        //     builder: (controller) {
+        //       return Text('${controller.itemCount}',
+        //           style: TextStyle(fontSize: 20));
+        //     },
+        //   ),
+        //   onPressed: () {
+        //     Navigator.of(context).push(MaterialPageRoute(builder: (_) {
+        //       return MakeOder();
+        //     }));
+        //     // showDialog(
+        //     //   context: context,
+        //     //   builder: (_) => AlertDialog(
+        //     //     title: Container(
+        //     //       padding: EdgeInsets.only(left: 5, right: 5, top: 3, bottom: 3),
+        //     //       color: Colors.amber,
+        //     //       child: Center(
+        //     //         child: Text("Ordered Items"),
+        //     //       ),
+        //     //     ),
+        //     //     actions: [
+        //     //       Container(
+        //     //         width: 400,
+        //     //         child: Center(
+        //     //           child: CircularProgressIndicator(),
+        //     //         ),
+        //     //       )
+        //     //     ],
+        //     //   ),
+        //     //);
+        //     // Navigator.of(context)
+        //     //     .push(MaterialPageRoute(builder: (_) {
+        //     //   //return MainDashBoard(snapshot.data[index].id);
+        //     //   return makeOder();
+        //     // }));
+        //   },
+        //   backgroundColor: Colors.orange,
+        // ),
         body: FutureBuilder<List<Product>>(
           future: getProduct(categoryId),
           builder: (context, data) {
@@ -86,12 +108,11 @@ class ShoppingPage extends StatelessWidget {
                 children: [
                   Expanded(
                       child: ListView.builder(
-                        itemCount: data.data.length,
-                        itemBuilder: (context, index) {
-
+                    itemCount: data.data.length,
+                    itemBuilder: (context, index) {
                       var imageIMAGE = data.data[index].productImage;
-                      var baseURL = 'https://demo.msalesapp.com/msales/resources/getBlob/';
-                      var imageURL = baseURL+imageIMAGE;
+                      var baseURL ='https://demo.msalesapp.com/msales/resources/getBlob/';
+                      var imageURL = baseURL + imageIMAGE;
 
                       // return Container(
                       //   margin: EdgeInsets.symmetric(
@@ -203,27 +224,38 @@ class ShoppingPage extends StatelessWidget {
                                         Container(
                                           //padding: EdgeInsets.all(10.0),
                                           //color: Colors.orangeAccent,
-                                          child: Text('${data.data[index].productName}',
-                                            style: TextStyle(fontSize: 18.0, color: Colors.orangeAccent),
+                                          child: Text(
+                                            '${data.data[index].productName}',
+                                            style: TextStyle(
+                                                fontSize: 18.0,
+                                                color: Colors.orangeAccent),
                                           ),
                                         ),
-                                        SizedBox(height: 10.0,),
-                                        Text(
-                                            '${data.data[index].productDescription}'
+                                        SizedBox(
+                                          height: 10.0,
                                         ),
-                                        SizedBox(height: 10.0,),
+                                        Text(
+                                            '${data.data[index].productDescription}'),
+                                        SizedBox(
+                                          height: 10.0,
+                                        ),
                                         Text(
                                           '\$ ${data.data[index].price}',
-                                          style: TextStyle(fontSize: 18.0,),
+                                          style: TextStyle(
+                                            fontSize: 18.0,
+                                          ),
                                         ),
-                                        ChangeNumber((quantity){
+                                        ChangeNumber((quantity) {
                                           data.data[index].quantity = quantity;
                                         }),
                                       ],
                                     ),
                                   ),
                                   Container(
-                                    child: Image.network(imageURL, height: 100,),
+                                    child: Image.network(
+                                      imageURL,
+                                      height: 100,
+                                    ),
                                   ),
                                 ],
                               ),
@@ -260,7 +292,7 @@ class ShoppingPage extends StatelessWidget {
 
     var headers = {
       'Authorization':
-          'Bearer eyJhbGciOiJSUzI1NiIsInR5cCI6IkpXVCIsImtpZCI6IkJEU2pBYnRPYWhFMEQtSjFmTXZ6MyJ9.eyJodHRwczovL3d3dy5tc2FsZXMuY29tL2VtYWlsIjoiZHVsYW5qYW5zZWpAZ21haWwuY29tIiwiaHR0cHM6Ly93d3cubXNhbGVzLmNvbS9lbWFpbF92ZXJpZmllZCI6dHJ1ZSwiaXNzIjoiaHR0cHM6Ly9tc2FsZXMuYXUuYXV0aDAuY29tLyIsInN1YiI6ImF1dGgwfDYwNzAwYzgyMGE0YjU1MDA2OTJkYjgyOSIsImF1ZCI6WyJodHRwOi8vcHVibGljLmFwaS5tc2FsZXNhcHAuY29tIiwiaHR0cHM6Ly9tc2FsZXMuYXUuYXV0aDAuY29tL3VzZXJpbmZvIl0sImlhdCI6MTYyNzAxNDgyMSwiZXhwIjoxNjI3MTAxMjIxLCJhenAiOiJCN0ZObXV2ZVRjZG4zZWthcVQ3eU1PZUs0Szgwd1FpOCIsInNjb3BlIjoib3BlbmlkIHByb2ZpbGUgZW1haWwifQ.RmlpNB1UlsKXAmZBzqd7yXHBxYnuw9EVTcBT_oNOPl1HnbV7Qya9v2BwYF0IvkTZk5YUphBqSf_3tTphgAQsD01XAzOgpez-QyefnDeigQTq06CLxZmjn7fWx284B9rbM1H7Gdujj0TEDCo8ET2c3acTN9u-_x-QXW4sVfeCuhLX7pDwWM7voQG_2Dsc6z1TYbVPydAbglEBxA_O7LF-_qyC1v0dPEeRuzyVel4VHe5Gs4MmhP6Vr3DDiL91ams9D5h8Eex7VTP7cDomQq9YAmUG0vy6vBFBCyDf2i0ykbnH3aL0I2VuCxPjAQ6vsANPIumqkLzW4Fmar9ThXpU5IA',
+          'Bearer eyJhbGciOiJSUzI1NiIsInR5cCI6IkpXVCIsImtpZCI6IkJEU2pBYnRPYWhFMEQtSjFmTXZ6MyJ9.eyJodHRwczovL3d3dy5tc2FsZXMuY29tL2VtYWlsIjoiZHVsYW5qYW5zZWpAZ21haWwuY29tIiwiaHR0cHM6Ly93d3cubXNhbGVzLmNvbS9lbWFpbF92ZXJpZmllZCI6dHJ1ZSwiaXNzIjoiaHR0cHM6Ly9tc2FsZXMuYXUuYXV0aDAuY29tLyIsInN1YiI6ImF1dGgwfDYwNzAwYzgyMGE0YjU1MDA2OTJkYjgyOSIsImF1ZCI6WyJodHRwOi8vcHVibGljLmFwaS5tc2FsZXNhcHAuY29tIiwiaHR0cHM6Ly9tc2FsZXMuYXUuYXV0aDAuY29tL3VzZXJpbmZvIl0sImlhdCI6MTYyNzQ4OTQxMSwiZXhwIjoxNjI3NTc1ODExLCJhenAiOiJCN0ZObXV2ZVRjZG4zZWthcVQ3eU1PZUs0Szgwd1FpOCIsInNjb3BlIjoib3BlbmlkIHByb2ZpbGUgZW1haWwifQ.m_rdR7mTXAfP0w3VR6XW1YIFqKqsurTBuAG2YUfMi3q-lnGk_PbwEGpQTGkQwteXLlJ0x0eXZ0cp9vU-Kt5rDfCUrOmSAVzZFE5j9IGv-8QkBlDn_w3H-7Jwl3nSA7lldAAJN1eIZ2dv-2cHOFeYBKdLBye6WN27wez0XAaLWHIkCT3LCIdKPWgwFGfgwsHwLlK_fUK7ySl0Amd6FnPb26N7BigGt1iGlzaCZP9MpeFVx3JStVs6JISwKxULvRDgB5iZPrSKrn6pF2jBlSR5uP1Wm5PQfWgJYp-jFrddGaCORWvYy_sjjF1ybqcH7PmnBm7OetqiLXfFDDNJiV2FTw',
       'Content-Type': 'application/json',
       'Cookie': 'JSESSIONID=B2E911507B6EE95774EC0246B10F5F5F',
       'BusinessId': 'partner-1'
@@ -285,14 +317,10 @@ class ShoppingPage extends StatelessWidget {
     return products;
   }
 
-  void getQuantity(int quantity){
-
-  }
+  void getQuantity(int quantity) {}
 }
 
-
 class ChangeNumber extends StatefulWidget {
-
   final Function newCount;
   ChangeNumber(this.newCount);
 
@@ -303,34 +331,35 @@ class ChangeNumber extends StatefulWidget {
 }
 
 class _ChangeNumber extends State<ChangeNumber> {
-  int _counter = 1;
+  int _counter = 0;
   @override
   Widget build(BuildContext context) {
-      return Row(
-        mainAxisAlignment: MainAxisAlignment.spaceEvenly,
-        children: [
-          IconButton(
-            onPressed: () {
-              if (_counter > 1) {
-                setState(() {
-                  _counter--;
-                });
-                widget.newCount(_counter);
-              }
-            },
-            icon: Icon(Icons.remove),
-          ),
-          Text(_counter.toString()),
-          IconButton(
-            onPressed: () {
+    return Row(
+      mainAxisAlignment: MainAxisAlignment.spaceEvenly,
+      children: [
+        IconButton(
+          onPressed: () {
+            if (_counter > 1) {
               setState(() {
-                _counter++;
+                _counter--;
+                print("${_counter--} with amount");
               });
               widget.newCount(_counter);
-            },
-            icon: Icon(Icons.add),
-          ),
-        ],
-      );
+            }
+          },
+          icon: Icon(Icons.remove),
+        ),
+        Text(_counter.toString()),
+        IconButton(
+          onPressed: () {
+            setState(() {
+              _counter++;
+            });
+            widget.newCount(_counter);
+          },
+          icon: Icon(Icons.add),
+        ),
+      ],
+    );
   }
 }

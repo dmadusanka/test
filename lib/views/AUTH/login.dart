@@ -27,7 +27,8 @@ class Login extends StatelessWidget {
             begin: Alignment.topRight,
             end: Alignment.bottomLeft,
             // stops: [0.2, 0.3],
-            colors: [Colors.deepPurpleAccent, Colors.purpleAccent, Colors.deepPurpleAccent, Colors.purple],
+            //colors: [Colors.white, Colors.black12, Colors.transparent, Colors.white10],
+            colors: [Colors.white, Colors.white10, Colors.black12, Colors.transparent],
           )
       ),
       child: Center(
